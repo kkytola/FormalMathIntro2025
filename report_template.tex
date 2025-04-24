@@ -1,0 +1,126 @@
+\documentclass[12pt]{article}
+\usepackage[scaled=0.75]{DejaVuSansMono}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{graphicx}
+%\usepackage[cache=false]{minted}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\usepackage{color}
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{tacticcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\definecolor{attributecolor}{rgb}{0.7, 0.1, 0.1} % red
+
+\def\lstlanguagefiles{lstlean.tex}
+\lstset{language=lean,basicstyle=\ttfamily,breaklines=true}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{MS-EV0029 Project Contribution Report}
+\author{Kalle Kytölä}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Project overview}
+As a part of the course MS-EV0029, I contributed to the project
+on the formalization of the Fischer--Tippett--Gnedenko theorem characterizing univariate
+extreme value distributions:
+\begin{center}
+\textbf{Extreme value distribution project} \\
+Webpage: \url{https://kkytola.github.io/ExtremeValueProject/} \\
+Github repository: \url{https://github.com/kkytola/ExtremeValueProject}
+\end{center}
+
+The main goal of the project is to classify the possible nondegenerate limits in distribution of maxima of an increasing number of independent and identically distributed random variables, up to shift and rescaling. A more elementary equivalent definition of these limit objects is:
+
+\begin{definition}[Extreme value distribution]
+A cumulative distribution function $G$ is an \textbf{extreme value distribution} if $G$ is nondegenerate and if for some cumulative distribution function $F$ and some real-number sequences $(a_n)_{n \in \mathbb{N}}$ and $(b_n)_{n \in \mathbb{N}}$ with $a_n>0$, we have
+$\lim_{n \to \infty} F \big( a_n x + b_n \big)^n = G(x)$
+at all points~$x$ where $G$ is continuous.
+\end{definition}
+
+The classification result is:
+
+\begin{theorem}[Fischer--Tippett--Gnedenko theorem]
+A cumulative distribution function $G$ is an extreme value distribution if and only if it is of the form
+$G(x) = F_\gamma \big( a x + b \big)$ for some $\gamma \in \mathbb{R}$ and $a>0$ and $b \in \mathbb{R}$, where
+$F_\gamma$ is a certain explicit cumulative distribution function
+($\gamma=0$ Gumbel, $\gamma < 0$ Weibull, $\gamma>0$ Fr\'echet).
+\end{theorem}
+
+
+\section*{Main contributions}
+Below is a list of my most significant contributions made during the project:
+
+\hfill{\emph{(Preferably identify contributions with pull-requet numbers or commit hashes.)}}
+
+\begin{enumerate}[label=\arabic*:, leftmargin=1cm]
+
+    \item commit \href{https://github.com/kkytola/ExtremeValueProject/commit/82f362d4812af3a9ccd4260acd3594e318322ea1}{82f362d} \\
+    %\textbf{Description:}
+    Wrote the (informal) statements and proofs of the characterization of
+    convergence in distribution functions in terms of cumulative distribution functions
+    in the blueprint,
+    Theorem~4.8 \emph{(convergence-in-distribution-with-cdf)} and
+    Lemma~4.9 \emph{(cdf-convergence-from-convergence-in-distribution)}.
+    
+    \item commit \href{https://github.com/kkytola/ExtremeValueProject/commit/d753d68d77e928728d0ef100ff7b706b24e17b26}{d753d68} \\
+    %\textbf{Description:}
+    Proved that left/right-continuous pseudoinverses \lstinline{lcInv}/\lstinline{rcInv} are indeed order-theoretically
+    left/right-continuous. The main result of the commit is \lstinline{leftOrdContinuous_lcInv}.
+    
+    \item commit \href{https://github.com/kkytola/ExtremeValueProject/commit/c6bfcf913e983d548119998f9eba0ecdcbe3df85}{c6bfcf9} \\ 
+    Stated and proved
+    \lstinline{tendsto_smul_apply_smul_deriv_of_tendsto_atTop_of_tendsto_smul_apply_smul_deriv}
+    and auxiliary results towards it. This is Lemma~2.11 \emph{(modify-limit-taylor)} in the blueprint.
+
+    %Add more commits as needed
+    %\item commit \href{https://the.url.of.fi/your/commit/or/pr}{abc123} \\ 
+    %Description.
+    %\lstinline{leanDeclarationName}
+    %\emph{(blueprint-label)}
+    
+\end{enumerate}
+
+
+\section*{Notes}
+
+\subsubsection*{Collaboration:}
+The project was a collaboration with a number of participants:
+\url{https://github.com/kkytola/ExtremeValueProject/graphs/contributors}.
+
+%\subsubsection{Code example}
+%You don't need to include any code in the report, but if you really think it clarifies some contribution, then
+%here's an example (but Unicode fonts are totally broken):
+%\begin{lstlisting}
+%theorem tendsto_of_forall_continuousAt_tendsto_cdf
+%    (μs : ℕ → ProbabilityMeasure ℝ) (μ : ProbabilityMeasure ℝ)
+%    (h : ∀ x, ContinuousAt μ.cdf x →
+%        Tendsto (fun n ↦ (μs n).cdf x) atTop (nhds (μ.cdf x))) :
+%    Tendsto μs atTop (nhds μ) := by ...
+%\end{lstlisting}
+
+\subsubsection*{Additional technical note:}
+This report is a template for actual course participants' reports. Your report does not have to be very detailed, as long as it contains a clear link to the project and roughly indicates which parts were your own work.
+
+\end{document}
